@@ -719,42 +719,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-database-compat.js"></script>
 
   <script>
-    let video = document.getElementById('video');
-    let canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    let scannedResult = document.getElementById('scannedResult');
-
-    function startScanner() {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then(function (stream) {
-          video.srcObject = stream;
-          video.setAttribute('playsinline', true);
-          video.play();
-          requestAnimationFrame(scanQRCode);
-        })
-        .catch(function (err) {
-          console.error("Error accessing camera: ", err);
-        });
-    }
-
-    function scanQRCode() {
-      if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let code = jsQR(imageData.data, canvas.width, canvas.height, {
-          inversionAttempts: "dontInvert",
-        });
-
-        if (code) {
-          scannedResult.innerText = `Scanned ID: ${code.data}`;
-          showMap();
-        }
-      }
-      requestAnimationFrame(scanQRCode);
-    }
     (function () {
       const PATHS = JSON.parse(document.getElementById("ue-paths-json").textContent);
       const CAMPUS = JSON.parse(document.getElementById("ue-campus-json").textContent);
@@ -1402,5 +1366,6 @@
   </script>
 
 </body>
+
 
 </html>
